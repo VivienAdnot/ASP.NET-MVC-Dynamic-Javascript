@@ -1,0 +1,39 @@
+﻿@model DynamicJavascript.Models.JSViewModel
+
+<script type="text/javascript">
+    var modules = {
+        "partnerX": (function () {
+            var run = function () {
+                alert("partnerX running");
+            };
+            
+            return {
+                run: run
+            };
+        })(),
+        "partnerY": (function () {
+            var run = function () {
+                alert("partnerY running");
+            };
+
+            return {
+                run: run
+            };
+        })()
+    };
+    var allowedModules = [];
+
+    var init = function () {
+        @foreach (string partnerId in Model.AllowedModuleIds)
+        {
+            @:allowedModules.push("@partnerId");
+        }
+    }
+
+    var run = function () {
+        init();
+        for (var i = 0; i < allowedModules.length; i++) {
+            modules[allowedModules[i]].run()
+        }
+    }
+</script>
